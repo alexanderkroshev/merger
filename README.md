@@ -2,7 +2,7 @@
 
 ## Requirements
 
-* Java >= 16
+* Java >= 15
 * Gradle
 
 ## Examples
