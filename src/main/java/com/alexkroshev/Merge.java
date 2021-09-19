@@ -25,14 +25,16 @@ public class Merge {
     public void safeNext(DataIterator iterator, ArrayList<DataIteratorWrapper> arrayList) throws IOException {
         Data data;
         while (iterator.hasNext()) {
+            Integer lineNum =null;
             try {
+                lineNum = iterator.getNumberOfLine();
                 data = iterator.next();
                 DataIteratorWrapper dataIteratorWrapper = new DataIteratorWrapper(data, iterator);
                 arrayList.add(dataIteratorWrapper);
                 break;
             } catch (NumberFormatException e) {
                 errorWriter.write("problem with parsing of integer in file "
-                        + iterator.getFileName() + ", line = " + iterator.getNumberOfLine() + "\r\n");
+                        + iterator.getFileName() + ", line = " + lineNum + "\r\n");
                 errorWriter.flush();
             }
         }
@@ -65,7 +67,7 @@ public class Merge {
                     listWithData.remove(dataWrapper);
                     safeNext(dataWrapper.getIterator(), listWithData);
                     errorWriter.write("fail of ordering, " + " file path: " + dataWrapper.getFileName() +
-                            ", line = " + dataWrapper.getIterator().getNumberOfLine() + "\r\n");
+                            ", line = " + (dataWrapper.getIterator().getNumberOfLine()-1) + "\r\n");
                     continue;
                 }
             } else if (ordering.equals(Ordering.DESC)) {
@@ -74,7 +76,7 @@ public class Merge {
                     listWithData.remove(dataWrapper);
                     safeNext(dataWrapper.getIterator(), listWithData);
                     errorWriter.write("fail of ordering, " + " file path: " + dataWrapper.getFileName() +
-                            ", line = " + dataWrapper.getIterator().getNumberOfLine() + "\r\n");
+                            ", line = " + (dataWrapper.getIterator().getNumberOfLine()-1) + "\r\n");
                     continue;
                 }
             }

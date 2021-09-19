@@ -12,7 +12,7 @@ public class DataIterator implements Iterator<Data> {
     private final DataType dataType;
     private final RandomAccessFile randomAccessFile;
     private Long pointer;
-    private int numberOfLine=0;
+    private int numberOfLine;
 
     public DataIterator(Ordering ordering, DataType dataType, String fileName) throws FileNotFoundException {
         this.ordering = ordering;
@@ -53,6 +53,7 @@ public class DataIterator implements Iterator<Data> {
 
     @Override
     public Data next() {
+        numberOfLine++;
         StringBuilder stringBuilder = new StringBuilder();
         Character c;
         try {
@@ -91,7 +92,7 @@ public class DataIterator implements Iterator<Data> {
             data = new StringData(stringBuilder.toString());
         else
             data = new IntegerData(Integer.parseInt(stringBuilder.toString()));
-        numberOfLine++;
+
         return data;
     }
 }
